@@ -92,7 +92,7 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 width: 420px;
-                opacity: 0.06 !important; /* Transparan halus */
+                opacity: 0.06 !important; 
                 z-index: -1;
                 pointer-events: none;
             }
@@ -148,8 +148,8 @@
             }
 
             .row-tgl-nis { display: flex; justify-content: space-between; font-size: 10pt; align-items: flex-end; margin-bottom: 2px; }
-            .nis-box { color: #d32f2f; font-weight: bold; font-size: 12pt; display: inline-block; }
-            .sub-nis { font-size: 8pt; font-style: italic; color: #d32f2f; display: block; margin-top: -3px; }
+            .nis-box { color: #1a237e; font-weight: bold; font-size: 11pt; display: inline-block; }
+            .sub-nis { font-size: 8pt; font-style: italic; color: #1a237e; display: block; margin-top: -1px; }
 
             /* HEADER SEKSI (WARNA UNGU/HIJAU) */
             .section-print-purple {
@@ -218,7 +218,7 @@
             <div class="header-text">
                 <h2 class="fw-bold mb-0">PENDAFTARAN PESERTA DIDIK BARU (SD)</h2>
                 <h4 class="mb-0">Tahun Pelajaran <span id="web_tahun_pelajaran">2026/2027</span></h4>
-                <p class="mb-0 mt-2 opacity-75 fw-bold"><i class="fa-solid fa-school"></i> SDN MUARA BAKTI 01</p>
+                <p class="mb-0 mt-2 opacity-75 fw-bold" id="web_nama_sekolah"><i class="fa-solid fa-school"></i> SDN MUARA BAKTI 01</p>
             </div>
         </div>
 
@@ -226,19 +226,19 @@
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <label class="fw-bold"><i class="fa-solid fa-building-columns"></i> NAMA SEKOLAH TUJUAN</label>
-                    <input type="text" id="nama_sekolah" class="form-control border-primary" value="SDN MUARA BAKTI 01" readonly>
+                    <input type="text" id="nama_sekolah" class="form-control border-primary" value="SDN MUARA BAKTI 01" oninput="updateNamaSekolah()">
                 </div>
                 <div class="col-md-4 mb-3">
                     <label class="fw-bold"><i class="fa-solid fa-calendar-days"></i> TAHUN PELAJARAN (EDITABLE)</label>
                     <input type="text" id="input_tahun_pelajaran" class="form-control border-primary" value="2026/2027" oninput="document.getElementById('p_tahun_pelajaran').innerText = this.value; document.getElementById('web_tahun_pelajaran').innerText = this.value;">
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label class="fw-bold">🔍 VALIDASI USIA SD (Per 1 Juli 2026)</label>
-                    <div class="d-flex gap-2 align-items-center">
-                        <input type="date" id="input_cek_tgl" class="form-control mb-0" onchange="sinkronUsia()">
-                        <div>
-                            <span id="hasil_hitung" class="fw-bold text-primary d-block" style="font-size: 0.85rem; white-space: nowrap;">0 Thn, 0 Bln, 0 Hr</span> 
-                            <span id="ket_status" class="badge bg-secondary p-1 no-print" style="font-size: 0.75rem;">Masukkan Tanggal</span>
+                    <label class="fw-bold"><i class="fa-solid fa-magnifying-glass"></i>🔍 VALIDASI USIA SD (Per 1 Juli)</label>
+                    <div class="d-flex flex-wrap gap-2 align-items-center border p-2 rounded bg-light border-primary" style="min-height: 48px;">
+                        <input type="date" id="input_cek_tgl" class="form-control mb-0 flex-grow-1" style="min-width: 140px; border:none; box-shadow:none;" onchange="sinkronUsia()">
+                        <div class="text-center flex-grow-1">
+                            <span id="hasil_hitung" class="fw-bold text-primary d-block" style="font-size: 0.85rem;">0 Thn, 0 Bln, 0 Hr</span> 
+                            <span id="ket_status" class="badge bg-secondary p-1 no-print w-100 mt-1" style="font-size: 0.75rem;">Masukkan Tanggal</span>
                         </div>
                     </div>
                 </div>
@@ -425,7 +425,7 @@
     </div>
 
     <div class="app-footer no-print">
-        <p>&copy; 2026 <strong>SDN MUARA BAKTI 01</strong>. All Rights Reserved.<br>
+        <p>&copy; 2026 <strong id="footer_nama_sekolah">SDN MUARA BAKTI 01</strong>. All Rights Reserved.<br>
         <small>Developed by Rohiman Supriyadi</small></p>
     </div>
 </div>
@@ -438,7 +438,7 @@
         <div class="header-dapodik-wrapper">
             <div class="logo-dapodik-container">
                 <div class="ruang-logo">
-                    <img src="" alt="" style="max-width: 100%; max-height: 100%;">
+                    <img src="dapodik.png" alt="Logo Dapodik" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                 </div>
                 <div class="title-wrapper">
                     <h1 class="dapodik-blue">dapodik</h1>
@@ -446,8 +446,8 @@
                 </div>
             </div>
             
-            <div class="ribbon-sekolah">
-                S D N M U A R A B A K T I 0 2
+            <div class="ribbon-sekolah" id="print_ribbon_sekolah">
+                S D N   M U A R A   B A K T I   0 2
             </div><br>
             
             <div class="title-hitam">
@@ -461,8 +461,8 @@
         <div class="row-tgl-nis">
             <div>Tanggal Pendaftaran : &nbsp;&nbsp;<span id="p_tgl_daftar" style="border: 1px solid #999; padding: 2px 10px;"></span></div>
             <div style="text-align: right;">
-                <span class="nis-box">N I S : _____________________</span>
-                <span class="sub-nis">(Dibuatkan Oleh Sekolah)</span>
+                <span class="nis-box">USIA : <span id="p_usia_validasi" style="text-decoration: underline;">________________________</span></span>
+                <span class="sub-nis">(Hasil Validasi Per 1 Juli)</span>
             </div>
         </div>
 
@@ -589,6 +589,15 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqPWXrth0O7ieUqt0BH9igTjKWb8Gf8qBmlLomghbx-E1sbFfh5mVLF-vFhwJKP_0/exec"; 
 
+    function updateNamaSekolah() {
+        let nama = document.getElementById("nama_sekolah").value.toUpperCase();
+        
+        document.title = "Aplikasi PPDB 2026 - " + nama;
+        document.getElementById("web_nama_sekolah").innerHTML = '<i class="fa-solid fa-school"></i> ' + nama;
+        document.getElementById("footer_nama_sekolah").innerText = nama;
+        document.getElementById("print_ribbon_sekolah").innerText = nama.split('').join(' ');
+    }
+
     function limitInput(el) { 
         if (el.value.length > el.maxLength) el.value = el.value.slice(0, el.maxLength); 
     }
@@ -625,12 +634,12 @@
 
         if (years >= 6) {
             k = years >= 7 ? "USIA PRIORITAS SD" : "MEMENUHI SYARAT SD";
-            statusBadge.className = "badge p-2 " + (years >= 7 ? "bg-success" : "bg-primary");
+            statusBadge.className = "badge p-2 w-100 mt-1 " + (years >= 7 ? "bg-success" : "bg-primary");
             formEl.classList.remove("locked-form");
             selectKelas.innerHTML = '<option value="Kelas 1">Kelas 1</option>';
         } else {
             k = "BELUM CUKUP USIA SD";
-            statusBadge.className = "badge p-2 bg-danger";
+            statusBadge.className = "badge p-2 w-100 mt-1 bg-danger";
             formEl.classList.add("locked-form");
             selectKelas.innerHTML = '<option value="">Belum Cukup Usia</option>';
             alert("Maaf, usia minimal masuk SD adalah 6 tahun per 1 Juli 2026.");
@@ -647,6 +656,9 @@
         document.getElementById('p_tgl_daftar').innerText = tglSekarang.replace(/\//g, " - ");
 
         document.getElementById('p_tahun_pelajaran').innerText = document.getElementById('input_tahun_pelajaran').value;
+        
+        let usiaCetak = document.getElementById('hasil_hitung').innerText;
+        document.getElementById('p_usia_validasi').innerText = (usiaCetak !== "0 Thn, 0 Bln, 0 Hr") ? usiaCetak : "________________________";
 
         // Data Anak
         document.getElementById('p_nama').innerText = form.nama.value;
@@ -753,6 +765,10 @@
             btn.disabled = false; 
             btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> SIMPAN & CETAK FORMULIR SD (F4)';
         }
+    }
+    
+    window.onload = function() {
+        updateNamaSekolah(); 
     }
 </script>
 </body>
