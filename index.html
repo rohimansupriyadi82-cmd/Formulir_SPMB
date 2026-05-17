@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi PPDB 2026 - SDN MUARA BAKTI 01</title>
+    <title>Aplikasi FORM SPMB 2026 - SDN MUARA BAKTI 01</title>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -216,7 +216,7 @@
                 <i class="fa-solid fa-graduation-cap fa-4x" style="color: #1a2a6c;"></i>
             </div>
             <div class="header-text">
-                <h2 class="fw-bold mb-0">PENDAFTARAN PESERTA DIDIK BARU (SD)</h2>
+                <h2 class="fw-bold mb-0">PENDAFTARAN PESERTA DIDIK BARU</h2>
                 <h4 class="mb-0">Tahun Pelajaran <span id="web_tahun_pelajaran">2026/2027</span></h4>
                 <p class="mb-0 mt-2 opacity-75 fw-bold" id="web_nama_sekolah"><i class="fa-solid fa-school"></i> SDN MUARA BAKTI 01</p>
             </div>
@@ -233,7 +233,7 @@
                     <input type="text" id="input_tahun_pelajaran" class="form-control border-primary" value="2026/2027" oninput="document.getElementById('p_tahun_pelajaran').innerText = this.value; document.getElementById('web_tahun_pelajaran').innerText = this.value;">
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label class="fw-bold"><i class="fa-solid fa-magnifying-glass"></i>🔍 VALIDASI USIA SD (Per 1 Juli)</label>
+                    <label class="fw-bold"><i class="fa-solid fa-magnifying-glass"></i>🔍 VALIDASI USIA (Per 1 Juli)</label>
                     <div class="d-flex flex-wrap gap-2 align-items-center border p-2 rounded bg-light border-primary" style="min-height: 48px;">
                         <input type="date" id="input_cek_tgl" class="form-control mb-0 flex-grow-1" style="min-width: 140px; border:none; box-shadow:none;" onchange="sinkronUsia()">
                         <div class="text-center flex-grow-1">
@@ -249,7 +249,7 @@
             <input type="hidden" name="ket_usia" id="hidden_ket_usia">
 
             <div class="section-container sec-anak">
-                <div class="section-title"><i class="fa-solid fa-child"></i> I. IDENTITAS PESERTA DIDIK SD</div>
+                <div class="section-title"><i class="fa-solid fa-child"></i> I. IDENTITAS PESERTA DIDIK</div>
                 <div class="row">
                     <div class="col-md-12"><label><i class="fa-solid fa-user"></i> Nama Lengkap</label><input type="text" name="nama" class="form-control" required placeholder="Sesuai Akte" oninput="this.value = this.value.toUpperCase()"></div>
                     <div class="col-md-4"><label><i class="fa-solid fa-venus-mars"></i> Jenis Kelamin</label><select name="jk" class="form-select"><option>Laki-laki</option><option>Perempuan</option></select></div>
@@ -632,17 +632,31 @@
         let statusBadge = document.getElementById("ket_status");
         let selectKelas = document.getElementById("select_kelas");
 
+        // PENYESUAIAN LOGIKA VALIDASI USIA OTOMATIS DAN PILIHAN KELAS (MANUAL TETAP AKTIF)
         if (years >= 6) {
             k = years >= 7 ? "USIA PRIORITAS SD" : "MEMENUHI SYARAT SD";
             statusBadge.className = "badge p-2 w-100 mt-1 " + (years >= 7 ? "bg-success" : "bg-primary");
             formEl.classList.remove("locked-form");
-            selectKelas.innerHTML = '<option value="Kelas 1">Kelas 1</option>';
+            // Set otomatis ke Kelas 1, namun opsi lain tetap dimuat agar bisa dipilih manual
+            selectKelas.innerHTML = '<option value="Kelas 1" selected>Kelas 1</option><option value="TK A">TK A</option><option value="TK B">TK B</option>';
+        } else if (years == 5) {
+            k = "MASUK KRITERIA TK B";
+            statusBadge.className = "badge p-2 w-100 mt-1 bg-info text-dark";
+            formEl.classList.remove("locked-form");
+            // Set otomatis ke TK B, namun opsi lain tetap dimuat agar bisa dipilih manual
+            selectKelas.innerHTML = '<option value="TK A">TK A</option><option value="TK B" selected>TK B</option><option value="Kelas 1">Kelas 1</option>';
+        } else if (years == 4) {
+            k = "MASUK KRITERIA TK A";
+            statusBadge.className = "badge p-2 w-100 mt-1 bg-info text-dark";
+            formEl.classList.remove("locked-form");
+            // Set otomatis ke TK A, namun opsi lain tetap dimuat agar bisa dipilih manual
+            selectKelas.innerHTML = '<option value="TK A" selected>TK A</option><option value="TK B">TK B</option><option value="Kelas 1">Kelas 1</option>';
         } else {
-            k = "BELUM CUKUP USIA SD";
+            k = "BELUM CUKUP USIA TK/SD";
             statusBadge.className = "badge p-2 w-100 mt-1 bg-danger";
             formEl.classList.add("locked-form");
             selectKelas.innerHTML = '<option value="">Belum Cukup Usia</option>';
-            alert("Maaf, usia minimal masuk SD adalah 6 tahun per 1 Juli 2026.");
+            alert("Maaf, usia anak belum mencukupi untuk jenjang TK maupun SD (Minimal usia 4 tahun per 1 Juli 2026).");
         }
         
         statusBadge.innerText = k;
