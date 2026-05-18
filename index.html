@@ -195,9 +195,9 @@
             
             .text-red, .text-italic, .hint-text { display: none !important; }
             
-            /* TANDA TANGAN */
+            /* TANDA TANGAN (RATA TENGAH) */
             .signature-wrapper { display: flex; justify-content: flex-end; margin-top: 25px; page-break-inside: avoid; }
-            .signature-box { text-align: left; width: 250px; font-size: 10pt; }
+            .signature-box { text-align: center; width: 250px; font-size: 10pt; }
             .garis-bawah-tebal { border-bottom: 2px solid black; display: inline-block; width: 100%; }
 
             /* KOTAK CATATAN */
@@ -253,32 +253,51 @@
                 <li>Siapkan dokumen penting: <strong>Kartu Keluarga (KK), Akta Kelahiran, dan KTP Orang Tua</strong>.</li>
                 <li>Lakukan <strong>Validasi Usia</strong> terlebih dahulu dengan memasukkan Tanggal Lahir anak pada kolom di atas form ini.</li>
                 <li>Isi NIK dan No. KK dengan teliti (harus berjumlah 16 digit angka).</li>
-<li>Jika Baru Masuk Jenjang PAUD atau TK, Maka Kolom NISN Di Kosongkan.</li>
-<li>Jika Berasal dari Jenjang RA/PAUD/TK WAJIB Mengisi NISN.</li>
+                <li><strong>Jika Baru Masuk Jenjang PAUD atau TK, Maka Kolom NISN Di Kosongkan.</strong></li>
+ <li><strong>Jika Berasal dari Jenjang RA/PAUD/TK WAJIB Mengisi NISN.</strong></li>
                 <li>Isi seluruh form menggunakan data yang valid. Jangan lupa mengisi <strong>Kota dan Tanggal Penandatanganan</strong> pada bagian paling bawah.</li>
-                <li>Setelah selesai, klik tombol <strong>SIMPAN & CETAK atau di Print Out lalu Serahkan Formulir Beserta dengan Lampirannya di serahkan ke Panitia SPMB</strong>, dan cetak pada kertas berukuran <strong>F4 (Folio)</strong>.</li>
-
+                <li>Setelah selesai, klik tombol <strong>CETAK / SAVE PDF FORMULIR</strong>, dan cetak pada kertas berukuran <strong>F4 (Folio)</strong>.</li>
             </ol>
         </div>
 
-        <form id="formPendaftaran" class="locked-form px-4 pb-4">
+        <form id="formPendaftaran" class="locked-form px-4 pb-4" onsubmit="event.preventDefault();">
             <input type="hidden" name="ket_usia" id="hidden_ket_usia">
 
             <div class="section-container sec-anak">
                 <div class="section-title"><i class="fa-solid fa-child"></i> I. IDENTITAS PESERTA DIDIK</div>
                 <div class="row">
                     <div class="col-md-12"><label><i class="fa-solid fa-user"></i> Nama Lengkap</label><input type="text" name="nama" class="form-control" required placeholder="Sesuai Akte" oninput="this.value = this.value.toUpperCase()"></div>
-                    <div class="col-md-4"><label><i class="fa-solid fa-venus-mars"></i> Jenis Kelamin</label><select name="jk" class="form-select"><option>Laki-laki</option><option>Perempuan</option></select></div>
+                    <div class="col-md-4"><label><i class="fa-solid fa-venus-mars"></i> Jenis Kelamin</label>
+                        <select name="jk" class="form-select">
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                    </div>
                     
                     <div class="col-md-4"><label><i class="fa-solid fa-id-card"></i> NISN</label><input type="number" name="nisn" class="form-control" placeholder="Jika ada (10 Digit)" oninput="validasiNISN(this)"></div>
                     
                     <div class="col-md-4"><label><i class="fa-solid fa-map-location-dot"></i> Tempat Lahir</label><input type="text" name="tempat_lahir" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
                     <div class="col-md-4"><label><i class="fa-solid fa-calendar-days"></i> Tanggal Lahir</label><input type="date" name="tgl_lahir" id="tgl_asli" class="form-control" readonly></div>
-                    <div class="col-md-4"><label><i class="fa-solid fa-address-card"></i> NIK Siswa (16 Digit)</label><input type="number" name="nik" class="form-control" maxlength="16" oninput="limitInput(this)"></div>
-                    <div class="col-md-4"><label><i class="fa-solid fa-users-rectangle"></i> No. Kartu Keluarga</label><input type="number" name="no_kk" class="form-control" maxlength="16" oninput="limitInput(this)"></div>
+                    
+                    <div class="col-md-4"><label><i class="fa-solid fa-address-card"></i> NIK Siswa (16 Digit)</label><input type="number" name="nik" class="form-control" placeholder="Harus 16 Digit Angka" oninput="validasi16Digit(this)"></div>
+                    <div class="col-md-4"><label><i class="fa-solid fa-users-rectangle"></i> No. Kartu Keluarga</label><input type="number" name="no_kk" class="form-control" placeholder="Harus 16 Digit Angka" oninput="validasi16Digit(this)"></div>
+                    
                     <div class="col-md-4"><label><i class="fa-solid fa-file-contract"></i> No. Akte Kelahiran</label><input type="text" name="no_akte" class="form-control"></div>
-                    <div class="col-md-4"><label><i class="fa-solid fa-mosque"></i> Agama</label><select name="agama" class="form-select"><option>Islam</option><option>Kristen</option><option>Katolik</option><option>Hindu</option><option>Buddha</option></select></div>
-                    <div class="col-md-4"><label><i class="fa-solid fa-credit-card"></i> Penerima KIP/PKH?</label><select name="pkh" class="form-select"><option>Tidak</option><option>Ya</option></select></div>
+                    <div class="col-md-4"><label><i class="fa-solid fa-mosque"></i> Agama</label>
+                        <select name="agama" class="form-select">
+                            <option value="Islam">Islam</option>
+                            <option value="Kristen">Kristen</option>
+                            <option value="Katolik">Katolik</option>
+                            <option value="Hindu">Hindu</option>
+                            <option value="Buddha">Buddha</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4"><label><i class="fa-solid fa-credit-card"></i> Penerima KIP/PKH?</label>
+                        <select name="pkh" class="form-select">
+                            <option value="Tidak">Tidak</option>
+                            <option value="Ya">Ya</option>
+                        </select>
+                    </div>
                     
                     <div class="col-md-12"><label><i class="fa-solid fa-house"></i> Alamat Rumah Lengkap</label><input type="text" name="alamat" class="form-control" placeholder="Jalan, RT/RW, Dusun" oninput="this.value = this.value.toUpperCase()"></div>
                     <div class="col-md-3"><label><i class="fa-solid fa-map"></i> Desa/Kelurahan</label><input type="text" name="desa" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
@@ -288,15 +307,23 @@
                     
                     <div class="col-md-4"><label><i class="fa-solid fa-envelope"></i> Kode Pos</label><input type="number" name="kode_pos" class="form-control"></div>
                     <div class="col-md-4"><label><i class="fa-solid fa-sitemap"></i> Anak Ke-</label><input type="number" name="anak_ke" class="form-control"></div>
-                    <div class="col-md-4"><label><i class="fa-solid fa-house-user"></i> Jenis Tinggal</label><select name="tinggal" class="form-select"><option>Orang Tua</option><option>Wali</option><option>Asrama</option></select></div>
-                    <div class="col-md-6"><label><i class="fa-solid fa-bus"></i> Alat Transportasi</label><select name="transportasi" class="form-select">
-                        <option>Jalan Kaki</option>
-                        <option>Sepeda</option>
-                        <option>Motor</option>
-                        <option>Mobil Pribadi</option>
-                        <option>Antar Jemput / Ojek</option>
-                        <option>Lainnya</option>
-                    </select></div>
+                    <div class="col-md-4"><label><i class="fa-solid fa-house-user"></i> Jenis Tinggal</label>
+                        <select name="tinggal" class="form-select">
+                            <option value="Orang Tua">Orang Tua</option>
+                            <option value="Wali">Wali</option>
+                            <option value="Asrama">Asrama</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6"><label><i class="fa-solid fa-bus"></i> Alat Transportasi</label>
+                        <select name="transportasi" class="form-select">
+                            <option value="Jalan Kaki">Jalan Kaki</option>
+                            <option value="Sepeda">Sepeda</option>
+                            <option value="Motor">Motor</option>
+                            <option value="Mobil Pribadi">Mobil Pribadi</option>
+                            <option value="Antar Jemput / Ojek">Antar Jemput / Ojek</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
                     <div class="col-md-6"><label><i class="fa-brands fa-whatsapp"></i> No HP Orang Tua (WA Aktif)</label><input type="text" name="hp" class="form-control" placeholder="08xxxxxx"></div>
                 </div>
             </div>
@@ -307,20 +334,19 @@
                     <div class="col-md-6 border-end">
                         <label class="text-primary fw-bold"><i class="fa-solid fa-person"></i> DATA AYAH</label>
                         <input type="text" name="ayah_nama" id="input_ayah_nama" class="form-control" placeholder="Nama Lengkap Ayah" oninput="this.value = this.value.toUpperCase()">
-                        <input type="number" name="ayah_nik" class="form-control" placeholder="NIK Ayah (16 Digit)" maxlength="16" oninput="limitInput(this)">
-                        
+                        <input type="number" name="ayah_nik" class="form-control" placeholder="NIK Ayah (16 Digit)" oninput="validasi16Digit(this)">
                         <input type="number" name="ayah_tahun" class="form-control" placeholder="Tahun Lahir Ayah (4 Digit)" oninput="validasiTahun(this)">
                         
                         <label>Pendidikan Ayah</label>
                         <select name="ayah_pendidikan" class="form-select">
                             <option value="">-- Pilih Pendidikan --</option>
-                            <option>SD / Sederajat</option>
-                            <option>SMP / Sederajat</option>
-                            <option>SMA / Sederajat</option>
-                            <option>D1 / D2 / D3</option>
-                            <option>D4 / S1</option>
-                            <option>S2 / S3</option>
-                            <option>Tidak Sekolah</option>
+                            <option value="SD / Sederajat">SD / Sederajat</option>
+                            <option value="SMP / Sederajat">SMP / Sederajat</option>
+                            <option value="SMA / Sederajat">SMA / Sederajat</option>
+                            <option value="D1 / D2 / D3">D1 / D2 / D3</option>
+                            <option value="D4 / S1">D4 / S1</option>
+                            <option value="S2 / S3">S2 / S3</option>
+                            <option value="Tidak Sekolah">Tidak Sekolah</option>
                         </select>
 
                         <label>Pekerjaan Ayah</label>
@@ -345,33 +371,32 @@
                         <label>Penghasilan Bulanan Ayah</label>
                         <select name="ayah_gaji" class="form-select">
                             <option value="">-- Pilih Penghasilan --</option>
-                            <option>Tidak Berpenghasilan</option>
-                            <option>Kurang dari Rp. 500.000</option>
-                            <option>Rp. 500.000 - Rp. 999.999</option>
-                            <option>Rp. 1.000.000 - Rp. 1.999.999</option>
-                            <option>Rp. 2.000.000 - Rp. 4.999.999</option>
-                            <option>Rp. 5.000.000 - Rp. 20.000.000</option>
-                            <option>Lebih dari Rp. 20.000.000</option>
+                            <option value="Tidak Berpenghasilan">Tidak Berpenghasilan</option>
+                            <option value="Kurang dari Rp. 500.000">Kurang dari Rp. 500.000</option>
+                            <option value="Rp. 500.000 - Rp. 999.999">Rp. 500.000 - Rp. 999.999</option>
+                            <option value="Rp. 1.000.000 - Rp. 1.999.999">Rp. 1.000.000 - Rp. 1.999.999</option>
+                            <option value="Rp. 2.000.000 - Rp. 4.999.999">Rp. 2.000.000 - Rp. 4.999.999</option>
+                            <option value="Rp. 5.000.000 - Rp. 20.000.000">Rp. 5.000.000 - Rp. 20.000.000</option>
+                            <option value="Lebih dari Rp. 20.000.000">Lebih dari Rp. 20.000.000</option>
                         </select>
                     </div>
 
                     <div class="col-md-6">
                         <label class="text-danger fw-bold"><i class="fa-solid fa-person-breastfeeding"></i> DATA IBU</label>
                         <input type="text" name="ibu_nama" class="form-control" placeholder="Nama Lengkap Ibu" oninput="this.value = this.value.toUpperCase()">
-                        <input type="number" name="ibu_nik" class="form-control" placeholder="NIK Ibu (16 Digit)" maxlength="16" oninput="limitInput(this)">
-                        
+                        <input type="number" name="ibu_nik" class="form-control" placeholder="NIK Ibu (16 Digit)" oninput="validasi16Digit(this)">
                         <input type="number" name="ibu_tahun" class="form-control" placeholder="Tahun Lahir Ibu (4 Digit)" oninput="validasiTahun(this)">
                         
                         <label>Pendidikan Ibu</label>
                         <select name="ibu_pendidikan" class="form-select">
                             <option value="">-- Pilih Pendidikan --</option>
-                            <option>SD / Sederajat</option>
-                            <option>SMP / Sederajat</option>
-                            <option>SMA / Sederajat</option>
-                            <option>D1 / D2 / D3</option>
-                            <option>D4 / S1</option>
-                            <option>S2 / S3</option>
-                            <option>Tidak Sekolah</option>
+                            <option value="SD / Sederajat">SD / Sederajat</option>
+                            <option value="SMP / Sederajat">SMP / Sederajat</option>
+                            <option value="SMA / Sederajat">SMA / Sederajat</option>
+                            <option value="D1 / D2 / D3">D1 / D2 / D3</option>
+                            <option value="D4 / S1">D4 / S1</option>
+                            <option value="S2 / S3">S2 / S3</option>
+                            <option value="Tidak Sekolah">Tidak Sekolah</option>
                         </select>
 
                         <label>Pekerjaan Ibu</label>
@@ -391,13 +416,13 @@
                         <label>Penghasilan Bulanan Ibu</label>
                         <select name="ibu_gaji" class="form-select">
                             <option value="">-- Pilih Penghasilan --</option>
-                            <option>Tidak Berpenghasilan</option>
-                            <option>Kurang dari Rp. 500.000</option>
-                            <option>Rp. 500.000 - Rp. 999.999</option>
-                            <option>Rp. 1.000.000 - Rp. 1.999.999</option>
-                            <option>Rp. 2.000.000 - Rp. 4.999.999</option>
-                            <option>Rp. 5.000.000 - Rp. 20.000.000</option>
-                            <option>Lebih dari Rp. 20.000.000</option>
+                            <option value="Tidak Berpenghasilan">Tidak Berpenghasilan</option>
+                            <option value="Kurang dari Rp. 500.000">Kurang dari Rp. 500.000</option>
+                            <option value="Rp. 500.000 - Rp. 999.999">Rp. 500.000 - Rp. 999.999</option>
+                            <option value="Rp. 1.000.000 - Rp. 1.999.999">Rp. 1.000.000 - Rp. 1.999.999</option>
+                            <option value="Rp. 2.000.000 - Rp. 4.999.999">Rp. 2.000.000 - Rp. 4.999.999</option>
+                            <option value="Rp. 5.000.000 - Rp. 20.000.000">Rp. 5.000.000 - Rp. 20.000.000</option>
+                            <option value="Lebih dari Rp. 20.000.000">Lebih dari Rp. 20.000.000</option>
                         </select>
                     </div>
                 </div>
@@ -424,22 +449,22 @@
                         <label><i class="fa-solid fa-route"></i> Jarak ke Sekolah</label>
                         <select name="jarak" class="form-select" required>
                             <option value="">-- Pilih Jarak --</option>
-                            <option>Kurang dari 1 km</option>
-                            <option>1 – 5 km</option>
-                            <option>5 – 10 km</option>
-                            <option>10 – 15 km</option>
-                            <option>Lebih dari 15 km</option>
+                            <option value="Kurang dari 1 km">Kurang dari 1 km</option>
+                            <option value="1 – 5 km">1 – 5 km</option>
+                            <option value="5 – 10 km">5 – 10 km</option>
+                            <option value="10 – 15 km">10 – 15 km</option>
+                            <option value="Lebih dari 15 km">Lebih dari 15 km</option>
                         </select>
                     </div>
                     <div class="col-md-6">
                         <label><i class="fa-solid fa-clock"></i> Waktu Tempuh</label>
                         <select name="waktu_tempuh" class="form-select">
                             <option value="">-- Pilih Waktu --</option>
-                            <option>1 - 10 Menit</option>
-                            <option>10 - 20 Menit</option>
-                            <option>20 - 30 Menit</option>
-                            <option>30 - 60 Menit</option>
-                            <option>Lebih dari 1 Jam</option>
+                            <option value="1 - 10 Menit">1 - 10 Menit</option>
+                            <option value="10 - 20 Menit">10 - 20 Menit</option>
+                            <option value="20 - 30 Menit">20 - 30 Menit</option>
+                            <option value="30 - 60 Menit">30 - 60 Menit</option>
+                            <option value="Lebih dari 1 Jam">Lebih dari 1 Jam</option>
                         </select>
                     </div>
                 </div>
@@ -459,7 +484,7 @@
                 </div>
             </div>
 
-            <button type="button" id="btn_simpan" class="btn-simpan shadow" onclick="kirimKeSpreadsheet()"><i class="fa-solid fa-floppy-disk"></i> SIMPAN & CETAK FORMULIR SD (F4)</button>
+            <button type="button" id="btn_simpan" class="btn-simpan shadow" onclick="prosesCetak()"><i class="fa-solid fa-print"></i> CETAK / SAVE PDF FORMULIR (F4)</button>
         </form>
     </div>
 
@@ -605,7 +630,7 @@
                 <span id="p_kota_ttd_print">Babelan</span>, <span id="p_tgl_ttd_print">......................................... 2026</span><br>
                 Wali Murid
                 <br><br><br><br><br>
-                <span class="garis-bawah-tebal" id="p_ttd_nama" style="text-align: center;"></span>
+                <span class="garis-bawah-tebal" id="p_ttd_nama"></span>
             </div>
         </div>
 
@@ -626,8 +651,6 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqPWXrth0O7ieUqt0BH9igTjKWb8Gf8qBmlLomghbx-E1sbFfh5mVLF-vFhwJKP_0/exec"; 
-
     // Fitur Update Nama Sekolah di Header & Ribbon Print
     function updateNamaSekolah() {
         let nama = document.getElementById("nama_sekolah").value.toUpperCase();
@@ -638,26 +661,34 @@
         document.getElementById("print_ribbon_sekolah").innerText = nama.split('').join(' ');
     }
 
-    // Fitur Pembatas Length Input NIK/KK
+    // Fitur Validasi Input Otomatis 16 Digit (Untuk NIK dan No KK)
+    function validasi16Digit(el) {
+        el.value = el.value.replace(/[^0-9]/g, '');
+        if (el.value.length > 16) {
+            el.value = el.value.slice(0, 16);
+        }
+        if (el.value !== "" && el.value.length !== 16) {
+            el.style.border = "2px solid #dc3545"; // Merah
+        } else {
+            el.style.border = ""; // Normal
+        }
+    }
+
+    // Fitur Pembatas Input Sederhana
     function limitInput(el) { 
         if (el.value.length > el.maxLength) el.value = el.value.slice(0, el.maxLength); 
     }
 
-    // FUNGSI BARU: Validasi NISN (Maksimal 10 Digit)
+    // Validasi NISN (Maksimal 10 Digit)
     function validasiNISN(el) {
-        // Hanya boleh angka
         el.value = el.value.replace(/[^0-9]/g, '');
-        
-        // Batasi 10 digit maksimal
         if (el.value.length > 10) {
             el.value = el.value.slice(0, 10);
         }
-        
-        // Indikator Merah jika diisi tapi bukan 10 digit
         if (el.value !== "" && el.value.length !== 10) {
-            el.style.border = "2px solid #dc3545"; // Merah
+            el.style.border = "2px solid #dc3545"; 
         } else {
-            el.style.border = ""; // Normal
+            el.style.border = ""; 
         }
     }
 
@@ -751,7 +782,7 @@
 
         // Data Anak
         document.getElementById('p_nama').innerText = form.nama.value;
-        document.getElementById('p_jk').innerText = form.jk.value;
+        document.getElementById('p_jk').innerText = form.jk.value || "..................";
         document.getElementById('p_nisn').innerText = form.nisn.value;
         document.getElementById('p_nik').innerText = form.nik.value;
         document.getElementById('p_kk').innerText = form.no_kk.value;
@@ -769,52 +800,53 @@
         document.getElementById('p_ttl').innerText = tempat + separator + formatTglLahir;
         
         document.getElementById('p_akte').innerText = form.no_akte.value;
-        document.getElementById('p_agama').innerText = form.agama.value;
+        document.getElementById('p_agama').innerText = form.agama.value || "..................";
         document.getElementById('p_alamat').innerText = form.alamat.value;
         document.getElementById('p_desa').innerText = form.desa.value;
         document.getElementById('p_kecamatan').innerText = form.kecamatan.value;
         document.getElementById('p_kabupaten').innerText = form.kabupaten.value;
         document.getElementById('p_provinsi').innerText = form.provinsi.value;
         document.getElementById('p_kodepos').innerText = form.kode_pos.value;
-        document.getElementById('p_tinggal').innerText = form.tinggal.value;
-        document.getElementById('p_transport').innerText = form.transportasi.value;
+        document.getElementById('p_tinggal').innerText = form.tinggal.value || "..................";
+        document.getElementById('p_transport').innerText = form.transportasi.value || "..................";
         document.getElementById('p_anak_ke').innerText = form.anak_ke.value;
-        document.getElementById('p_pkh').innerText = form.pkh.value;
+        document.getElementById('p_pkh').innerText = form.pkh.value || "..................";
         document.getElementById('p_hp').innerText = form.hp.value;
 
         // Data Ayah
         document.getElementById('p_ayah_nama').innerText = form.ayah_nama.value;
         document.getElementById('p_ayah_nik').innerText = form.ayah_nik.value;
         document.getElementById('p_ayah_tahun').innerText = form.ayah_tahun.value;
-        document.getElementById('p_ayah_pend').innerText = form.ayah_pendidikan.value;
-        document.getElementById('p_ayah_kerja').innerText = form.ayah_kerja.value;
-        document.getElementById('p_ayah_gaji').innerText = form.ayah_gaji.value;
+        document.getElementById('p_ayah_pend').innerText = form.ayah_pendidikan.value || "..................";
+        document.getElementById('p_ayah_kerja').innerText = form.ayah_kerja.value || "..................";
+        document.getElementById('p_ayah_gaji').innerText = form.ayah_gaji.value || "..................";
 
         // Data Ibu
         document.getElementById('p_ibu_nama').innerText = form.ibu_nama.value;
         document.getElementById('p_ibu_nik').innerText = form.ibu_nik.value;
         document.getElementById('p_ibu_tahun').innerText = form.ibu_tahun.value;
-        document.getElementById('p_ibu_pend').innerText = form.ibu_pendidikan.value;
-        document.getElementById('p_ibu_kerja').innerText = form.ibu_kerja.value;
-        document.getElementById('p_ibu_gaji').innerText = form.ibu_gaji.value;
+        document.getElementById('p_ibu_pend').innerText = form.ibu_pendidikan.value || "..................";
+        document.getElementById('p_ibu_kerja').innerText = form.ibu_kerja.value || "..................";
+        document.getElementById('p_ibu_gaji').innerText = form.ibu_gaji.value || "..................";
 
-        // Data Periodik & TTD
+        // Data Periodik
         document.getElementById('p_tb').innerText = form.tb.value || ".....";
         document.getElementById('p_bb').innerText = form.bb.value || ".....";
         document.getElementById('p_lingkar_kepala').innerText = form.lingkar_kepala.value || ".....";
-        document.getElementById('p_jarak').innerText = form.jarak.value;
-        document.getElementById('p_waktu').innerText = form.waktu_tempuh.value;
+        document.getElementById('p_jarak').innerText = form.jarak.value || "..................";
+        document.getElementById('p_waktu').innerText = form.waktu_tempuh.value || "..................";
         document.getElementById('p_saudara').innerText = form.saudara.value || ".....";
         document.getElementById('p_hobi').innerText = form.hobi.value || ".....";
         document.getElementById('p_cita_cita').innerText = form.cita_cita.value || ".....";
 
-        // Titimangsa & Tanda Tangan
+        // Titimangsa & Tanda Tangan (RATA TENGAH & TANGGAL DINAMIS)
         let kotaTtd = document.getElementById('input_kota_ttd').value || "BABELAN";
         let tglTtdInput = document.getElementById('input_tgl_ttd').value;
         let tglTtdFormat = "......................................... 2026";
         if(tglTtdInput) {
             let d = new Date(tglTtdInput);
-            tglTtdFormat = d.toLocaleDateString('id-ID', {day: '2-digit', month: 'long', year: 'numeric'});
+            let monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            tglTtdFormat = d.getDate() + " " + monthNames[d.getMonth()] + " " + d.getFullYear();
         }
         
         kotaTtd = kotaTtd.charAt(0).toUpperCase() + kotaTtd.slice(1).toLowerCase();
@@ -826,14 +858,37 @@
         document.getElementById('p_ttd_nama').innerText = namaOrtu ? namaOrtu.toUpperCase() : "........................................";
     }
 
-    async function kirimKeSpreadsheet() {
+    // FUNGSI PROSES CETAK TANPA MENGIRIM KE SPREADSHEET
+    function prosesCetak() {
         const form = document.getElementById('formPendaftaran');
         const btn = document.getElementById('btn_simpan');
         
-        // Pengecekan Wajib NIK
-        if(!form.nama.value || form.nik.value.length != 16) { 
-            alert("⚠️ Nama Lengkap dan NIK Siswa (16 digit) wajib diisi dengan benar!"); 
+        // Pengecekan Wajib Nama
+        if(!form.nama.value) { 
+            alert("⚠️ Nama Lengkap wajib diisi!"); 
+            form.nama.focus();
             return; 
+        }
+
+        // Pengecekan Wajib 16 Digit NIK Siswa
+        if(form.nik.value.length !== 16) {
+            alert("⚠️ NIK Siswa tidak valid! Harus berjumlah tepat 16 digit angka. Silakan lengkapi terlebih dahulu.");
+            form.nik.focus();
+            return;
+        }
+
+        // Pengecekan Wajib 16 Digit No KK
+        if(form.no_kk.value.length !== 16) {
+            alert("⚠️ No. Kartu Keluarga (KK) tidak valid! Harus berjumlah tepat 16 digit angka.");
+            form.no_kk.focus();
+            return;
+        }
+
+        // Pengecekan Keamanan: NIK dan KK Tidak Boleh Sama
+        if(form.nik.value === form.no_kk.value) {
+            alert("⚠️ Kesalahan Data: NIK Siswa dan No. Kartu Keluarga (KK) tidak boleh sama! Silakan periksa kembali ketikan Anda.");
+            form.nik.focus();
+            return;
         }
 
         // Pengecekan NISN (Opsional, tapi jika diisi wajib 10 digit)
@@ -843,7 +898,7 @@
             return;
         }
 
-        // Pengecekan Validasi Tahun Lahir Orang Tua saat tombol ditekan
+        // Pengecekan Validasi Tahun Lahir Orang Tua
         if(form.ayah_tahun.value !== "" && form.ayah_tahun.value.length !== 4) {
             alert("⚠️ Tahun Lahir Ayah tidak valid! Pastikan terisi 4 digit angka (Contoh: 1985).");
             form.ayah_tahun.focus();
@@ -855,42 +910,14 @@
             return;
         }
         
-        btn.disabled = true; 
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sedang Mengirim...';
+        // Memasukkan data dari form ke template cetak
+        mappingDataKePrint();
 
-        const formData = new FormData(form);
-        const dataObj = { 
-            timestamp: new Date().toLocaleString('id-ID'), 
-            sekolah_tujuan: document.getElementById('nama_sekolah').value,
-            tahun_pelajaran: document.getElementById('input_tahun_pelajaran').value
-        };
+        // Mengubah teks tombol agar lebih relevan (hanya update visual tanpa menghapus data di form)
+        btn.innerHTML = '<i class="fa-solid fa-print"></i> CETAK ULANG FORMULIR (F4)';
         
-        formData.forEach((value, key) => {
-            dataObj[key] = (["nik", "no_kk", "ayah_nik", "ibu_nik", "nisn"].includes(key)) ? "'" + value : value;
-        });
-
-        try {
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(dataObj),
-                mode: 'no-cors'
-            });
-
-            mappingDataKePrint();
-
-            alert("Data Berhasil Disimpan! Silakan simpan / cetak formulir ini ke format PDF (Kertas F4 / Folio).");
-            
-            btn.innerHTML = '<i class="fa-solid fa-print"></i> CETAK ULANG FORMULIR (F4)';
-            btn.onclick = () => window.print();
-            btn.disabled = false;
-
-            window.print(); 
-
-        } catch (e) { 
-            alert("❌ Terjadi kesalahan pengiriman."); 
-            btn.disabled = false; 
-            btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> SIMPAN & CETAK FORMULIR SD (F4)';
-        }
+        // Membuka dialog print/save PDF browser
+        window.print(); 
     }
     
     // Inisialisasi awal
