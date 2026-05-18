@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi FORM SPMB 2026 - SDN MUARA BAKTI 01</title>
+    <title>Aplikasi PPDB 2026 - SDN MUARA BAKTI 01</title>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -35,6 +35,8 @@
             .sec-anak { background-color: #e3f2fd; border-left: 8px solid #0d6efd; }
             .sec-ortu { background-color: #fce4ec; border-left: 8px solid #d81b60; }
             .sec-periodik { background-color: #fffde7; border-left: 8px solid #fbc02d; }
+            .sec-titimangsa { background-color: #f3e5f5; border-left: 8px solid #9c27b0; }
+            
             .section-title { font-weight: bold; margin-bottom: 15px; color: #333; text-transform: uppercase; display: flex; align-items: center; }
             .section-title i { margin-right: 10px; font-size: 1.2rem; }
             
@@ -84,7 +86,7 @@
                 clear: both;
             }
 
-            /* WATERMARK LOGO TUT WURI HANDAYANI TRANSFRAN */
+            /* WATERMARK LOGO TUT WURI HANDAYANI ABSOLUT URL DENGAN OPACITY OPTIMAL */
             .watermark-logo {
                 display: block !important;
                 position: absolute;
@@ -92,7 +94,7 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 width: 420px;
-                opacity: 0.06 !important; 
+                opacity: 0.12 !important; 
                 z-index: -1;
                 pointer-events: none;
             }
@@ -184,7 +186,7 @@
                 background: white;
             }
 
-            /* KETENTUAN BARIS PROPORSIONAL AGAR DATA IBU PAS DI HALAMAN 1 */
+            /* TABEL ISIAN PROPORSIONAL */
             .table-print { width: 100%; border-collapse: collapse; font-size: 9.5pt; font-family: Arial, sans-serif; line-height: 1.45; } 
             .table-print td { padding: 3.5px 2px; vertical-align: bottom; border: none; } 
             .t-lbl { width: 33%; font-weight: normal; vertical-align: middle;}
@@ -237,7 +239,7 @@
                     <div class="d-flex flex-wrap gap-2 align-items-center border p-2 rounded bg-light border-primary" style="min-height: 48px;">
                         <input type="date" id="input_cek_tgl" class="form-control mb-0 flex-grow-1" style="min-width: 140px; border:none; box-shadow:none;" onchange="sinkronUsia()">
                         <div class="text-center flex-grow-1">
-                            <span id="hasil_hitung" class="fw-bold text-primary d-block" style="font-size: 0.85rem;">0 Thn, 0 Bln, 0 Hr</span> 
+                            <span id="hasil_hitung" class="fw-bold text-primary d-block" style="font-size: 0.85rem; white-space: nowrap;">0 Thn, 0 Bln, 0 Hr</span> 
                             <span id="ket_status" class="badge bg-secondary p-1 no-print w-100 mt-1" style="font-size: 0.75rem;">Masukkan Tanggal</span>
                         </div>
                     </div>
@@ -245,7 +247,21 @@
             </div>
         </div>
 
-        <form id="formPendaftaran" class="locked-form p-4">
+        <div class="m-4 alert alert-info shadow-sm" style="border-left: 5px solid #0dcaf0;">
+            <h6 class="fw-bold mb-2"><i class="fa-solid fa-circle-info"></i> PANDUAN PENGISIAN FORMULIR:</h6>
+            <ol class="mb-0 small" style="padding-left: 15px;">
+                <li>Siapkan dokumen penting: <strong>Kartu Keluarga (KK), Akta Kelahiran, dan KTP Orang Tua</strong>.</li>
+                <li>Lakukan <strong>Validasi Usia</strong> terlebih dahulu dengan memasukkan Tanggal Lahir anak pada kolom di atas form ini.</li>
+                <li>Isi NIK dan No. KK dengan teliti (harus berjumlah 16 digit angka).</li>
+<li>Jika Baru Masuk Jenjang PAUD atau TK, Maka Kolom NISN Di Kosongkan.</li>
+<li>Jika Berasal dari Jenjang RA/PAUD/TK WAJIB Mengisi NISN.</li>
+                <li>Isi seluruh form menggunakan data yang valid. Jangan lupa mengisi <strong>Kota dan Tanggal Penandatanganan</strong> pada bagian paling bawah.</li>
+                <li>Setelah selesai, klik tombol <strong>SIMPAN & CETAK atau di Print Out lalu Serahkan Formulir Beserta dengan Lampirannya di serahkan ke Panitia SPMB</strong>, dan cetak pada kertas berukuran <strong>F4 (Folio)</strong>.</li>
+
+            </ol>
+        </div>
+
+        <form id="formPendaftaran" class="locked-form px-4 pb-4">
             <input type="hidden" name="ket_usia" id="hidden_ket_usia">
 
             <div class="section-container sec-anak">
@@ -253,7 +269,9 @@
                 <div class="row">
                     <div class="col-md-12"><label><i class="fa-solid fa-user"></i> Nama Lengkap</label><input type="text" name="nama" class="form-control" required placeholder="Sesuai Akte" oninput="this.value = this.value.toUpperCase()"></div>
                     <div class="col-md-4"><label><i class="fa-solid fa-venus-mars"></i> Jenis Kelamin</label><select name="jk" class="form-select"><option>Laki-laki</option><option>Perempuan</option></select></div>
-                    <div class="col-md-4"><label><i class="fa-solid fa-id-card"></i> NISN</label><input type="text" name="nisn" class="form-control" placeholder="Jika ada"></div>
+                    
+                    <div class="col-md-4"><label><i class="fa-solid fa-id-card"></i> NISN</label><input type="number" name="nisn" class="form-control" placeholder="Jika ada (10 Digit)" oninput="validasiNISN(this)"></div>
+                    
                     <div class="col-md-4"><label><i class="fa-solid fa-map-location-dot"></i> Tempat Lahir</label><input type="text" name="tempat_lahir" class="form-control" oninput="this.value = this.value.toUpperCase()"></div>
                     <div class="col-md-4"><label><i class="fa-solid fa-calendar-days"></i> Tanggal Lahir</label><input type="date" name="tgl_lahir" id="tgl_asli" class="form-control" readonly></div>
                     <div class="col-md-4"><label><i class="fa-solid fa-address-card"></i> NIK Siswa (16 Digit)</label><input type="number" name="nik" class="form-control" maxlength="16" oninput="limitInput(this)"></div>
@@ -290,7 +308,8 @@
                         <label class="text-primary fw-bold"><i class="fa-solid fa-person"></i> DATA AYAH</label>
                         <input type="text" name="ayah_nama" id="input_ayah_nama" class="form-control" placeholder="Nama Lengkap Ayah" oninput="this.value = this.value.toUpperCase()">
                         <input type="number" name="ayah_nik" class="form-control" placeholder="NIK Ayah (16 Digit)" maxlength="16" oninput="limitInput(this)">
-                        <input type="number" name="ayah_tahun" class="form-control" placeholder="Tahun Lahir Ayah">
+                        
+                        <input type="number" name="ayah_tahun" class="form-control" placeholder="Tahun Lahir Ayah (4 Digit)" oninput="validasiTahun(this)">
                         
                         <label>Pendidikan Ayah</label>
                         <select name="ayah_pendidikan" class="form-select">
@@ -340,7 +359,8 @@
                         <label class="text-danger fw-bold"><i class="fa-solid fa-person-breastfeeding"></i> DATA IBU</label>
                         <input type="text" name="ibu_nama" class="form-control" placeholder="Nama Lengkap Ibu" oninput="this.value = this.value.toUpperCase()">
                         <input type="number" name="ibu_nik" class="form-control" placeholder="NIK Ibu (16 Digit)" maxlength="16" oninput="limitInput(this)">
-                        <input type="number" name="ibu_tahun" class="form-control" placeholder="Tahun Lahir Ibu">
+                        
+                        <input type="number" name="ibu_tahun" class="form-control" placeholder="Tahun Lahir Ibu (4 Digit)" oninput="validasiTahun(this)">
                         
                         <label>Pendidikan Ibu</label>
                         <select name="ibu_pendidikan" class="form-select">
@@ -386,16 +406,21 @@
             <div class="section-container sec-periodik">
                 <div class="section-title"><i class="fa-solid fa-file-medical"></i> III. DATA PERIODIK PESERTA DIDIK</div>
                 <div class="row g-2">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label><i class="fa-solid fa-school-flag"></i> Masuk Di Kelas</label>
                         <select name="kelas" id="select_kelas" class="form-select">
                             <option value="">- Pilih Usia Dulu -</option>
                         </select>
                     </div>
-                    <div class="col-md-4"><label><i class="fa-solid fa-weight-scale"></i> Berat Badan (kg)</label><input type="number" name="bb" class="form-control" placeholder="0"></div>
-                    <div class="col-md-4"><label><i class="fa-solid fa-ruler-vertical"></i> Tinggi Badan (cm)</label><input type="number" name="tb" class="form-control" placeholder="0"></div>
-                    <div class="col-md-6"><label><i class="fa-solid fa-people-roof"></i> Jumlah Saudara Kandung</label><input type="number" name="saudara" class="form-control" placeholder="0"></div>
-                    <div class="col-md-3">
+                    <div class="col-md-3"><label><i class="fa-solid fa-weight-scale"></i> Berat Badan (kg)</label><input type="number" name="bb" class="form-control" placeholder="0"></div>
+                    <div class="col-md-3"><label><i class="fa-solid fa-ruler-vertical"></i> Tinggi Badan (cm)</label><input type="number" name="tb" class="form-control" placeholder="0"></div>
+                    <div class="col-md-3"><label><i class="fa-solid fa-tape"></i> Lingkar Kepala (cm)</label><input type="number" name="lingkar_kepala" class="form-control" placeholder="0"></div>
+                    
+                    <div class="col-md-4"><label><i class="fa-solid fa-people-roof"></i> Jumlah Saudara Kandung</label><input type="number" name="saudara" class="form-control" placeholder="0"></div>
+                    <div class="col-md-4"><label><i class="fa-solid fa-icons"></i> Hobi</label><input type="text" name="hobi" class="form-control" placeholder="Hobi Anak" oninput="this.value = this.value.toUpperCase()"></div>
+                    <div class="col-md-4"><label><i class="fa-solid fa-user-astronaut"></i> Cita-Cita</label><input type="text" name="cita_cita" class="form-control" placeholder="Cita-cita Anak" oninput="this.value = this.value.toUpperCase()"></div>
+                    
+                    <div class="col-md-6">
                         <label><i class="fa-solid fa-route"></i> Jarak ke Sekolah</label>
                         <select name="jarak" class="form-select" required>
                             <option value="">-- Pilih Jarak --</option>
@@ -406,7 +431,7 @@
                             <option>Lebih dari 15 km</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <label><i class="fa-solid fa-clock"></i> Waktu Tempuh</label>
                         <select name="waktu_tempuh" class="form-select">
                             <option value="">-- Pilih Waktu --</option>
@@ -416,6 +441,20 @@
                             <option>30 - 60 Menit</option>
                             <option>Lebih dari 1 Jam</option>
                         </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-container sec-titimangsa">
+                <div class="section-title"><i class="fa-solid fa-pen-nib"></i> IV. TITIMANGSA (PENGESAHAN)</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label><i class="fa-solid fa-city"></i> Kota/Tempat Tanda Tangan</label>
+                        <input type="text" name="kota_ttd" id="input_kota_ttd" class="form-control" placeholder="Contoh: Babelan" value="Babelan" oninput="this.value = this.value.toUpperCase()">
+                    </div>
+                    <div class="col-md-6">
+                        <label><i class="fa-solid fa-calendar-check"></i> Tanggal Tanda Tangan</label>
+                        <input type="date" name="tgl_ttd" id="input_tgl_ttd" class="form-control">
                     </div>
                 </div>
             </div>
@@ -433,7 +472,7 @@
 <div id="print-area">
     
     <div class="page-container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Logo_Kementerian_Pendidikan_dan_Kebudayaan.png" class="watermark-logo" alt="Watermark">
+        <img src="https://rohimansupriyadi82-cmd.github.io/Formulir_SPMB/tutwuri.png" class="watermark-logo" alt="Watermark">
         
         <div class="header-dapodik-wrapper">
             <div class="logo-dapodik-container">
@@ -513,7 +552,7 @@
     <div class="page-break"></div>
 
     <div class="page-container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Logo_Kementerian_Pendidikan_dan_Kebudayaan.png" class="watermark-logo" alt="Watermark">
+        <img src="https://rohimansupriyadi82-cmd.github.io/Formulir_SPMB/tutwuri.png" class="watermark-logo" alt="Watermark">
         
         <div class="section-print-green" style="margin-top: 10px;">Data Wali ( Di Isi Jika Tinggal Dengan Wali )</div>
         <table class="table-print">
@@ -537,7 +576,7 @@
             </tr>
             <tr>
                 <td class="t-lbl">Lingkar Kepala</td><td class="t-cln">:</td>
-                <td><span style="border-bottom: 1px dotted black; display:inline-block; width: 100px;"></span> Cm</td>
+                <td><span id="p_lingkar_kepala" style="border-bottom: 1px dotted black; display:inline-block; width: 100px; font-weight:bold;"></span> Cm</td>
             </tr>
             <tr>
                 <td class="t-lbl">Jarak Rumah Ke Sekolah</td><td class="t-cln">:</td>
@@ -553,17 +592,17 @@
             </tr>
             <tr>
                 <td class="t-lbl">Hobi</td><td class="t-cln">:</td>
-                <td><span style="border-bottom: 1px dotted black; display:inline-block; width: 250px;"></span></td>
+                <td><span id="p_hobi" style="border-bottom: 1px dotted black; display:inline-block; width: 250px; font-weight:bold;"></span></td>
             </tr>
             <tr>
                 <td class="t-lbl">Cita-cita</td><td class="t-cln">:</td>
-                <td><span style="border-bottom: 1px dotted black; display:inline-block; width: 250px;"></span></td>
+                <td><span id="p_cita_cita" style="border-bottom: 1px dotted black; display:inline-block; width: 250px; font-weight:bold;"></span></td>
             </tr>
         </table>
 
         <div class="signature-wrapper">
             <div class="signature-box">
-                Babelan, ......................................... 2026<br>
+                <span id="p_kota_ttd_print">Babelan</span>, <span id="p_tgl_ttd_print">......................................... 2026</span><br>
                 Wali Murid
                 <br><br><br><br><br>
                 <span class="garis-bawah-tebal" id="p_ttd_nama" style="text-align: center;"></span>
@@ -589,6 +628,7 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqPWXrth0O7ieUqt0BH9igTjKWb8Gf8qBmlLomghbx-E1sbFfh5mVLF-vFhwJKP_0/exec"; 
 
+    // Fitur Update Nama Sekolah di Header & Ribbon Print
     function updateNamaSekolah() {
         let nama = document.getElementById("nama_sekolah").value.toUpperCase();
         
@@ -598,8 +638,46 @@
         document.getElementById("print_ribbon_sekolah").innerText = nama.split('').join(' ');
     }
 
+    // Fitur Pembatas Length Input NIK/KK
     function limitInput(el) { 
         if (el.value.length > el.maxLength) el.value = el.value.slice(0, el.maxLength); 
+    }
+
+    // FUNGSI BARU: Validasi NISN (Maksimal 10 Digit)
+    function validasiNISN(el) {
+        // Hanya boleh angka
+        el.value = el.value.replace(/[^0-9]/g, '');
+        
+        // Batasi 10 digit maksimal
+        if (el.value.length > 10) {
+            el.value = el.value.slice(0, 10);
+        }
+        
+        // Indikator Merah jika diisi tapi bukan 10 digit
+        if (el.value !== "" && el.value.length !== 10) {
+            el.style.border = "2px solid #dc3545"; // Merah
+        } else {
+            el.style.border = ""; // Normal
+        }
+    }
+
+    // Validasi Real-time 4 Digit Angka pada Tahun Lahir Ortua
+    function validasiTahun(el) {
+        el.value = el.value.replace(/[^0-9]/g, '');
+        
+        if (el.value.length > 4) {
+            el.value = el.value.slice(0, 4);
+        }
+        
+        if (el.value.startsWith('0')) {
+            el.value = el.value.replace(/^0+/, '');
+        }
+        
+        if (el.value !== "" && el.value.length < 4) {
+            el.style.border = "2px solid #dc3545"; 
+        } else {
+            el.style.border = ""; 
+        }
     }
 
     function sinkronUsia() {
@@ -632,24 +710,21 @@
         let statusBadge = document.getElementById("ket_status");
         let selectKelas = document.getElementById("select_kelas");
 
-        // PENYESUAIAN LOGIKA VALIDASI USIA OTOMATIS DAN PILIHAN KELAS (MANUAL TETAP AKTIF)
+        // Logika Usia & Kelas (TK A, TK B, Kelas 1)
         if (years >= 6) {
             k = years >= 7 ? "USIA PRIORITAS SD" : "MEMENUHI SYARAT SD";
             statusBadge.className = "badge p-2 w-100 mt-1 " + (years >= 7 ? "bg-success" : "bg-primary");
             formEl.classList.remove("locked-form");
-            // Set otomatis ke Kelas 1, namun opsi lain tetap dimuat agar bisa dipilih manual
             selectKelas.innerHTML = '<option value="Kelas 1" selected>Kelas 1</option><option value="TK A">TK A</option><option value="TK B">TK B</option>';
         } else if (years == 5) {
             k = "MASUK KRITERIA TK B";
             statusBadge.className = "badge p-2 w-100 mt-1 bg-info text-dark";
             formEl.classList.remove("locked-form");
-            // Set otomatis ke TK B, namun opsi lain tetap dimuat agar bisa dipilih manual
             selectKelas.innerHTML = '<option value="TK A">TK A</option><option value="TK B" selected>TK B</option><option value="Kelas 1">Kelas 1</option>';
         } else if (years == 4) {
             k = "MASUK KRITERIA TK A";
             statusBadge.className = "badge p-2 w-100 mt-1 bg-info text-dark";
             formEl.classList.remove("locked-form");
-            // Set otomatis ke TK A, namun opsi lain tetap dimuat agar bisa dipilih manual
             selectKelas.innerHTML = '<option value="TK A" selected>TK A</option><option value="TK B">TK B</option><option value="Kelas 1">Kelas 1</option>';
         } else {
             k = "BELUM CUKUP USIA TK/SD";
@@ -726,9 +801,26 @@
         // Data Periodik & TTD
         document.getElementById('p_tb').innerText = form.tb.value || ".....";
         document.getElementById('p_bb').innerText = form.bb.value || ".....";
+        document.getElementById('p_lingkar_kepala').innerText = form.lingkar_kepala.value || ".....";
         document.getElementById('p_jarak').innerText = form.jarak.value;
         document.getElementById('p_waktu').innerText = form.waktu_tempuh.value;
         document.getElementById('p_saudara').innerText = form.saudara.value || ".....";
+        document.getElementById('p_hobi').innerText = form.hobi.value || ".....";
+        document.getElementById('p_cita_cita').innerText = form.cita_cita.value || ".....";
+
+        // Titimangsa & Tanda Tangan
+        let kotaTtd = document.getElementById('input_kota_ttd').value || "BABELAN";
+        let tglTtdInput = document.getElementById('input_tgl_ttd').value;
+        let tglTtdFormat = "......................................... 2026";
+        if(tglTtdInput) {
+            let d = new Date(tglTtdInput);
+            tglTtdFormat = d.toLocaleDateString('id-ID', {day: '2-digit', month: 'long', year: 'numeric'});
+        }
+        
+        kotaTtd = kotaTtd.charAt(0).toUpperCase() + kotaTtd.slice(1).toLowerCase();
+        
+        document.getElementById('p_kota_ttd_print').innerText = kotaTtd;
+        document.getElementById('p_tgl_ttd_print').innerText = tglTtdFormat;
 
         let namaOrtu = form.ayah_nama.value || form.ibu_nama.value;
         document.getElementById('p_ttd_nama').innerText = namaOrtu ? namaOrtu.toUpperCase() : "........................................";
@@ -738,9 +830,29 @@
         const form = document.getElementById('formPendaftaran');
         const btn = document.getElementById('btn_simpan');
         
+        // Pengecekan Wajib NIK
         if(!form.nama.value || form.nik.value.length != 16) { 
-            alert("⚠️ Nama Lengkap dan NIK (16 digit) wajib diisi!"); 
+            alert("⚠️ Nama Lengkap dan NIK Siswa (16 digit) wajib diisi dengan benar!"); 
             return; 
+        }
+
+        // Pengecekan NISN (Opsional, tapi jika diisi wajib 10 digit)
+        if(form.nisn.value !== "" && form.nisn.value.length !== 10) {
+            alert("⚠️ Jika NISN diisi, maka harus berjumlah tepat 10 digit angka!");
+            form.nisn.focus();
+            return;
+        }
+
+        // Pengecekan Validasi Tahun Lahir Orang Tua saat tombol ditekan
+        if(form.ayah_tahun.value !== "" && form.ayah_tahun.value.length !== 4) {
+            alert("⚠️ Tahun Lahir Ayah tidak valid! Pastikan terisi 4 digit angka (Contoh: 1985).");
+            form.ayah_tahun.focus();
+            return;
+        }
+        if(form.ibu_tahun.value !== "" && form.ibu_tahun.value.length !== 4) {
+            alert("⚠️ Tahun Lahir Ibu tidak valid! Pastikan terisi 4 digit angka (Contoh: 1990).");
+            form.ibu_tahun.focus();
+            return;
         }
         
         btn.disabled = true; 
@@ -781,6 +893,7 @@
         }
     }
     
+    // Inisialisasi awal
     window.onload = function() {
         updateNamaSekolah(); 
     }
